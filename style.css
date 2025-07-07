@@ -1,0 +1,318 @@
+style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        
+            body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #8e44ad, #3498db, #1abc9c);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    padding: 20px;
+    overflow-x: hidden;   /* Prevents horizontal scroll */
+    overflow-y: auto;     /* Allows vertical scroll */
+}
+
+        
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .calculator-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            max-width: 500px;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .calculator-header {
+            text-align: center;
+            color: white;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .calculator-header h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            background: linear-gradient(45deg, #ffffff, #e0f7fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .calculator-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            letter-spacing: 1px;
+        }
+
+        .calculator {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+            padding: 30px;
+            width: 100%;
+            max-width: 350px;
+            margin: 0 auto;
+        }
+
+        .display {
+            background: rgba(10, 25, 47, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: right;
+            box-shadow: inset 0 4px 15px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .previous-operand {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.3rem;
+            min-height: 30px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            letter-spacing: 1px;
+        }
+
+        .current-operand {
+            color: white;
+            font-size: 2.8rem;
+            font-weight: 500;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        button {
+            border: none;
+            border-radius: 15px;
+            padding: 18px 0;
+            font-size: 1.5rem;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.2s ease;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        button:active {
+            transform: translateY(2px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        button:hover::before {
+            opacity: 1;
+        }
+
+        .operator {
+            background: rgba(231, 76, 60, 0.3);
+        }
+
+        .equals {
+            background: rgba(46, 204, 113, 0.4);
+            grid-column: span 2;
+        }
+
+        .function {
+            background: rgba(155, 89, 182, 0.3);
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 15px;
+            opacity: 0.9;
+            font-size: 1.1rem;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .bubbles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: bubble 15s infinite ease-in;
+        }
+
+        .bubble:nth-child(1) {
+            width: 40px;
+            height: 40px;
+            left: 10%;
+            animation-duration: 20s;
+        }
+
+        .bubble:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            left: 20%;
+            animation-duration: 15s;
+            animation-delay: 2s;
+        }
+
+        .bubble:nth-child(3) {
+            width: 30px;
+            height: 30px;
+            left: 35%;
+            animation-duration: 18s;
+            animation-delay: 4s;
+        }
+
+        .bubble:nth-child(4) {
+            width: 50px;
+            height: 50px;
+            left: 50%;
+            animation-duration: 22s;
+            animation-delay: 0s;
+        }
+
+        .bubble:nth-child(5) {
+            width: 35px;
+            height: 35px;
+            left: 70%;
+            animation-duration: 17s;
+            animation-delay: 1s;
+        }
+
+        .bubble:nth-child(6) {
+            width: 45px;
+            height: 45px;
+            left: 80%;
+            animation-duration: 19s;
+            animation-delay: 3s;
+        }
+
+        .bubble:nth-child(7) {
+            width: 55px;
+            height: 55px;
+            left: 65%;
+            animation-duration: 21s;
+            animation-delay: 5s;
+        }
+
+        @keyframes bubble {
+            0% {
+                bottom: -100px;
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(100px);
+            }
+            100% {
+                bottom: 100%;
+                transform: translateX(-150px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .calculator {
+                max-width: 300px;
+                padding: 20px;
+            }
+            
+            button {
+                padding: 15px 0;
+                font-size: 1.3rem;
+            }
+            
+            .current-operand {
+                font-size: 2.2rem;
+            }
+        }
+        .creator-tag {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.creator-tag .prefix {
+    color: #ffffff;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 1.2rem;
+    letter-spacing: 0.5px;
+    margin-right: 5px;
+}
+
+.creator-tag .highlight-name {
+    font-weight: bold;
+    font-size: 1.3rem;
+    background: linear-gradient(270deg, #ff6ec4, #7873f5, #32e6e2, #ff6ec4);
+    background-size: 600% 600%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: liquidGlow 8s ease infinite;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+@keyframes liquidGlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
